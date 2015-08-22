@@ -1,0 +1,17 @@
+Offers
+******
+Countdown
+
+Losing an offer makes you loose money
+
+Titles
+******
+
+If there is not enough monsters you loose the title
+
+
+
+
+Size
+800*600
+grid 8 px = 100 * 75
