@@ -21,8 +21,6 @@ class Title extends FlxSpriteGroup
 		
 		new FlxTimer(1, everySecond, 0);
 		
-		Reg.titles.push(this);
-		
 		icon.makeGraphic(5 * Reg.brickSize, 3 * Reg.brickSize, FlxColor.WHITE);
 		
 		name = new FlxText(6 * Reg.brickSize, 0, 100);
@@ -32,6 +30,10 @@ class Title extends FlxSpriteGroup
 		
 		add(icon);
 		//add(name);
+		
+		Reg.titles.push(this);
+		
+		ID = Reg.titles.length;
     }
 
     override public function update():Void
@@ -47,5 +49,10 @@ class Title extends FlxSpriteGroup
 	function everySecond(Timer:FlxTimer):Void 	
 	{
 		//trace("hop");
+	}
+	
+	public function getSprite():FlxSprite 
+	{
+		return icon;
 	}
 }

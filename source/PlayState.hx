@@ -14,7 +14,9 @@ import flixel.util.FlxPoint;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxStringUtil;
 import haxe.Timer;
+import openfl.display.CapsStyle;
 import openfl.display.Graphics;
+import openfl.display.JointStyle;
 import view.Building;
 import view.Monster;
 import view.Title;
@@ -41,8 +43,7 @@ class PlayState extends FlxState
 		add(tileMap);
 		
 		// For TEst
-		var monster:Monster = new Monster(52 * Reg.brickSize, 36 * Reg.brickSize);
-		add(monster);
+
 		
 		var bld:Building = new Building(50 * Reg.brickSize, 32 * Reg.brickSize);
 		add(bld);
@@ -53,43 +54,15 @@ class PlayState extends FlxState
 		var title:Title = new Title(80 * Reg.brickSize, 15 * Reg.brickSize);
 		add(title);
 		
+		var title2:Title = new Title(80 * Reg.brickSize, 30 * Reg.brickSize);
+		add(title2);
+		
 		// ---
-		
-		path = new FlxPath();
-		
-		var nodes:Array<FlxPoint> = tileMap.findPath (FlxPoint.get(monster.x + monster.width / 2, monster.y + monster.height / 2), FlxPoint.get(title.x + title.width / 2, title.y + title.height / 2), true);
-		//var path:Array<FlxPoint> = tileMap.findPath(new FlxPoint(50, 32), new FlxPoint(80, 15));
-		//path.nodes = path;
-		
-		if (nodes != null) path.start(monster, nodes);
-		
-		trace(nodes);
-		
-		var line:FlxSprite = new FlxSprite();
-		line.makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
-		//line.fill(FlxColor.TRANSPARENT);
-		//FlxSpriteUtil.drawPolygon(line, nodes, 0x00221133, { thickness: 1, color: FlxColor.RED } );
-		
-		for (i in 0...nodes.length-1) {
-			FlxSpriteUtil.drawLine(line, nodes[i].x, nodes[i].y, nodes[i+1].x, nodes[i+1].y, { thickness: 8, color: FlxColor.RED } );
-		}
-		add(line);
-		
-		
-		//var nodes:Array<FlxPoint> = tileMap.findPath(new FlxPoint(80, 15), new FlxPoint(50, 32));
-		
-		
 	}
 	
 	override public function draw():Void
 	{
 		super.draw();
-		
-		// To draw path
-		if ((path != null))
-		{
-			path.drawDebug();
-		}
 	}
 	
 	override public function destroy():Void
@@ -100,9 +73,6 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
-		
-		//time += FlxG.elapsed;
-		//trace("TIME: " + Math.floor(time));
 	}
 	
 }

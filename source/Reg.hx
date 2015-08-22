@@ -45,8 +45,4 @@ class Reg
 	
 	public static var map:FlxTilemap;
 	
-	
-	
-	
-	
 }
