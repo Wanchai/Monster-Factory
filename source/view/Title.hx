@@ -30,8 +30,35 @@ class Title extends FlxSpriteGroup
 		add(icon);
 		add(name);
 		
+		updateMap(true);
+		
 		Reg.titles.push(this);
     }
+		
+	function updateMap(make:Bool = false): Bool
+	{
+		var icW:Int = Std.int(icon.width / Reg.brickSize);
+		var icH:Int = Std.int(icon.height / Reg.brickSize);
+		var chk:Bool = true;
+		
+		for (i in 0...icW) {
+			for (j in 0...icH) {
+				var ind:Int = Std.int(this.y / Reg.brickSize + j) * 100  + Std.int(this.x / Reg.brickSize) + i;
+				
+				if (make) 
+				{
+					Reg.map.setTileByIndex(ind, 1);
+				}
+				else 
+				{
+					if (Reg.map.getTileByIndex(ind) == 1) chk = false;
+				}
+			}
+		}
+		if (chk && !make) updateMap(true);
+		
+		return chk;
+	}
 	
 	public function setData(id:Int) {
 		ID = id;

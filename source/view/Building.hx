@@ -18,7 +18,7 @@ import flixel.util.FlxTimer;
  */
 class Building extends FlxSpriteGroup
 {
-	var icon:FlxSprite = new FlxSprite();
+	public var icon:FlxSprite = new FlxSprite();
 	var mouseStart:FlxPoint = new FlxPoint();
 	var name:FlxText;
 	var linking:Bool;
@@ -33,8 +33,6 @@ class Building extends FlxSpriteGroup
         super(X, Y);
 		isBuilding = BUILD;
 		new FlxTimer(1, everySecond, 0);
-		
-
 		
 		icon.makeGraphic(10 * Reg.brickSize, 6 * Reg.brickSize, FlxColor.AZURE);
 		
@@ -92,8 +90,6 @@ class Building extends FlxSpriteGroup
 		return chk;
 	}
 	
-
-
     override public function update():Void
     {
         super.update();
@@ -136,11 +132,9 @@ class Building extends FlxSpriteGroup
 					}
 					if (chk) {
 						// Creates a new link
-						
-						// Move to LINK for update
-						var nodes:Array<FlxPoint> = Reg.map.findPath (FlxPoint.get(this.x + icon.width / 2, this.y + icon.height + Reg.brickSize/2), FlxPoint.get(tt.x + tt.width / 2, tt.y + tt.height / 2), true);
-						var lk:Link = new Link(nodes, tit, this);
+						var lk:Link = new Link(tit, this);
 						lines.push(lk);
+						lk.setPosition( -this.x, -this.y);
 						add(lk);
 					}
 				}
@@ -157,7 +151,7 @@ class Building extends FlxSpriteGroup
 		}		
 	}
 		
-	function everySecond(Timer:FlxTimer):Void 	
+	function everySecond(Timer:FlxTimer):Void
 	{
 		if (lines.length > 0) {
 			var monster:Monster = new Monster(0 + icon.width / 2, 0 + icon.height + Reg.brickSize/2);

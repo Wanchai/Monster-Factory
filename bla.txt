@@ -9,6 +9,12 @@ Titles
 
 If there is not enough monsters you loose the title
 
+Building
+********
+
+A monster every second
+
+Dies after 30 monsters
 
 Size
 800*600

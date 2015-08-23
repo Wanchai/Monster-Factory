@@ -2,6 +2,7 @@ package;
 
 import flixel.addons.display.FlxGridOverlay;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 import flixel.tile.FlxTilemap;
@@ -49,7 +50,7 @@ class PlayState extends FlxState
 		bld.setName("Creeps");
 		add(bld);
 		
-		var title2:Title = new Title(80 * Reg.brickSize, 30 * Reg.brickSize);
+		var title2:Title = new Title(80 * Reg.brickSize, 6 * Reg.brickSize);
 		title2.setName("Prince of Arabia");
 		add(title2);
 		
@@ -63,11 +64,11 @@ class PlayState extends FlxState
 	
 	function addTitle(Timer:FlxTimer):Void
 	{
-		var title2:Title = new Title(80 * Reg.brickSize, 25 * Reg.brickSize + 32 * titleCount);
-		title2.setData(titleCount++);
+		var title2:Title = new Title(80 * Reg.brickSize, 12 * Reg.brickSize + 56 * titleCount);
+		title2.setData(++titleCount);
 		add(title2);
 		
-		if (titleCount == Reg.titData.length) titTimer.cancel();
+		if (titleCount == Reg.titData.length-1) titTimer.cancel();
 	}
 	
 	function everySecond(Timer:FlxTimer) :Void
