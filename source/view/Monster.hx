@@ -1,6 +1,8 @@
 package view;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import flixel.util.FlxPath;
 
@@ -25,9 +27,19 @@ class Monster extends FlxSprite
 		super.update();
 		
 		if (path.finished) {
+			for (tit in Reg.titles) {	
+				var tt:FlxSprite = tit.getSprite();
+				if (FlxG.overlap(this, tt)) {
+					Reg.cash += points;
+					
+					destroy();
+				}
+			}
+		}
+		/*if (path.finished) {
 			Reg.cash += points;
 			destroy();
-		}
+		}*/
     }
 	
 }

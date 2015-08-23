@@ -1,7 +1,9 @@
 package view;
 
+import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 
@@ -22,12 +24,20 @@ class HUD extends FlxSpriteGroup
 		add(cash);
 		
 		FlxSpriteUtil.screenCenter(cash, true, false);
+		
+		var resetBtn:FlxButton = new FlxButton(1, 1, "reset", resetMe);
+		add(resetBtn);
+	}
+	
+	function resetMe() 
+	{
+		FlxG.resetGame();
 	}
 	
 	override public function update():Void
 	{
-		cash.text = "CA$H : " + Reg.cash;
 		super.update();
+		cash.text = "CA$H : " + Reg.cash;
 	}
 	
 	override public function destroy():Void

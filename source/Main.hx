@@ -7,6 +7,8 @@ import flash.events.Event;
 import flash.Lib;
 import flixel.FlxGame;
 import flixel.FlxState;
+import haxe.Json;
+import openfl.Assets;
 
 class Main extends Sprite 
 {
@@ -51,6 +53,11 @@ class Main extends Sprite
 	
 	private function setupGame():Void
 	{
+		Reg.config = Json.parse(Assets.getText(AssetPaths.data__json));
+		//trace(Reg.config);
+		Reg.bldData = Reg.config.Buildings;
+		Reg.titData = Reg.config.Titles;
+		
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 

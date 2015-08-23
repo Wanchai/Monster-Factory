@@ -31,9 +31,12 @@ class Title extends FlxSpriteGroup
 		add(name);
 		
 		Reg.titles.push(this);
-		
-		ID = Reg.titles.length;
     }
+	
+	public function setData(id:Int) {
+		ID = id;
+		setName(Reg.titData[ID][0]);
+	}
 
     override public function update():Void
     {

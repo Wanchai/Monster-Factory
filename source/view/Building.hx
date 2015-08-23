@@ -34,9 +34,7 @@ class Building extends FlxSpriteGroup
 		isBuilding = BUILD;
 		new FlxTimer(1, everySecond, 0);
 		
-		canvas.makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
-		canvas.setPosition( -this.x, -this.y);
-		add(canvas);
+
 		
 		icon.makeGraphic(10 * Reg.brickSize, 6 * Reg.brickSize, FlxColor.AZURE);
 		
@@ -49,73 +47,115 @@ class Building extends FlxSpriteGroup
 		
 		if (!isBuilding) 
 		{
-			// Update Map
-			var icW:Int = Std.int(icon.width / Reg.brickSize);
-			var icH:Int = Std.int(icon.height / Reg.brickSize);
-			
-			var j:Int = 0;
-			for (i in 0...icW) {
-				for (j in 0...icH) {
-					Reg.map.setTileByIndex(Std.int(Y / Reg.brickSize + j) * 100  + Std.int(X / Reg.brickSize) + i, 1);
-				}
-			}
-			
-			MouseEventManager.add(this, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
+			updateMap();
+			setData(0);
+			init();
 		}
     }
 	
-	function onMouseDown(sprite:FlxSprite) {
-		mouseStart.copyFrom(FlxG.mouse);
-		linking = true;
+	function init() 
+	{
+		canvas.makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
+		canvas.setPosition( -this.x, -this.y);
+		add(canvas);
+		
+		MouseEventManager.add(icon, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
 	}
 	
-	function onMouseUp(sprite:FlxSprite) {}
-	function onMouseOver(sprite:FlxSprite) {}
-	function onMouseOut(sprite:FlxSprite) {}
+	public function setData(id:Int) {
+		ID = id;
+		setName(Reg.bldData[ID][0][0]);
+	}
+	
+	function updateMap(make:Bool = false): Bool
+	{
+		var icW:Int = Std.int(icon.width / Reg.brickSize);
+		var icH:Int = Std.int(icon.height / Reg.brickSize);
+		var chk:Bool = true;
+		
+		for (i in 0...icW) {
+			for (j in 0...icH) {
+				var ind:Int = Std.int(this.y / Reg.brickSize + j) * 100  + Std.int(this.x / Reg.brickSize) + i;
+				
+				if (make) 
+				{
+					Reg.map.setTileByIndex(ind, 1);
+				}
+				else 
+				{
+					if (Reg.map.getTileByIndex(ind) == 1) chk = false;
+				}
+			}
+		}
+		if (chk && !make) updateMap(true);
+		
+		return chk;
+	}
+	
+
 
     override public function update():Void
     {
         super.update();
 		if (!isBuilding) 
 		{
-			if (linking && FlxG.mouse.justReleased) {
-				linking = false;
-				FlxSpriteUtil.fill(canvas, FlxColor.TRANSPARENT);
-				
-				for (tit in Reg.titles) {	
-					var tt:FlxSprite = tit.getSprite();
-					if (FlxCollision.pixelPerfectPointCheck(Std.int(FlxG.mouse.x), Std.int(FlxG.mouse.y), tt)) {
-						var chk:Bool = true;
-						for (ln in lines) {
-							if (ln.title == tit) {
-								chk = false;
-							}
-						}
-						if (chk) {
-							// Creates a new link
-							var nodes:Array<FlxPoint> = Reg.map.findPath (FlxPoint.get(this.x + icon.width / 2, this.y + icon.height + Reg.brickSize/2), FlxPoint.get(tt.x + tt.width / 2, tt.y + tt.height / 2), true);
-							var lk:Link = new Link(nodes, tit, this);
-							lines.push(lk);
-							add(lk);
-						}
-					}
+			makeLink();
+		}
+		else
+		{
+			if (FlxG.mouse.justReleased) {
+				if (updateMap()) {
+					isBuilding = false;
+					this.setPosition(Std.int(this.x / Reg.brickSize) * Reg.brickSize, Std.int(this.y / Reg.brickSize) * Reg.brickSize);
+					//trace("X: " + (Std.int(this.x / Reg.brickSize) * Reg.brickSize) + " Y: " + (Std.int(this.y / Reg.brickSize) * Reg.brickSize));
+					init();
 				}
 			}
-				
-			if (linking) {
-				// For the line drawing
-				if (canvas != null) {
-					FlxSpriteUtil.fill(canvas, FlxColor.TRANSPARENT);
-				}
-				FlxSpriteUtil.drawLine(canvas, mouseStart.x, mouseStart.y, FlxG.mouse.x, FlxG.mouse.y, { thickness: 1, color: FlxColor.RED } );
+			else
+			{
+				setPosition(FlxG.mouse.x - 15, FlxG.mouse.y - 15);
 			}
 		}
     }
-
-    override public function destroy():Void
-    {
-        super.destroy();
-    }
+	
+	function makeLink() 
+	{
+		if (linking && FlxG.mouse.justReleased) {
+			linking = false;
+			FlxSpriteUtil.fill(canvas, FlxColor.TRANSPARENT);
+			//FlxSpriteUtil.fill(canvas, 0x11c3c3c3);
+			
+			for (tit in Reg.titles) {	
+				var tt:FlxSprite = tit.getSprite();
+				if (FlxCollision.pixelPerfectPointCheck(Std.int(FlxG.mouse.x), Std.int(FlxG.mouse.y), tt)) {
+					var chk:Bool = true;
+					for (ln in lines) {
+						if (ln.title == tit) {
+							chk = false;
+						}
+					}
+					if (chk) {
+						// Creates a new link
+						
+						// Move to LINK for update
+						var nodes:Array<FlxPoint> = Reg.map.findPath (FlxPoint.get(this.x + icon.width / 2, this.y + icon.height + Reg.brickSize/2), FlxPoint.get(tt.x + tt.width / 2, tt.y + tt.height / 2), true);
+						var lk:Link = new Link(nodes, tit, this);
+						lines.push(lk);
+						add(lk);
+					}
+				}
+			}
+		}
+			
+		if (linking) {
+			// For the line drawing
+			if (canvas != null) {
+				//FlxSpriteUtil.fill(canvas, 0x11c3c3c3);
+				FlxSpriteUtil.fill(canvas, FlxColor.TRANSPARENT);
+			}
+			FlxSpriteUtil.drawLine(canvas, mouseStart.x, mouseStart.y, FlxG.mouse.x, FlxG.mouse.y, { thickness: 1, color: FlxColor.RED } );
+		}		
+	}
 		
 	function everySecond(Timer:FlxTimer):Void 	
 	{
@@ -137,8 +177,22 @@ class Building extends FlxSpriteGroup
 		}
 	}
 	
+    override public function destroy():Void
+    {
+        super.destroy();
+    }
+	
 	public function setName(str:String):Void 
 	{
 		name.text = str;
 	}
+	
+	function onMouseDown(sprite:FlxSprite) {
+		mouseStart.copyFrom(FlxG.mouse);
+		if(!isBuilding) linking = true;
+	}
+	
+	function onMouseUp(sprite:FlxSprite) {}
+	function onMouseOver(sprite:FlxSprite) {}
+	function onMouseOut(sprite:FlxSprite) {}
 }

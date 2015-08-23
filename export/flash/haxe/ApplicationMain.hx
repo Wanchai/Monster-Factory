@@ -34,6 +34,10 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.TEXT);
 		
 		
+		urls.push ("assets/data/data.json");
+		types.push (lime.Assets.AssetType.TEXT);
+		
+		
 		urls.push ("assets/images/100.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
@@ -130,7 +134,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "315",
+			build: "381",
 			company: "Thomas MALICET",
 			file: "LD33",
 			fps: 60,

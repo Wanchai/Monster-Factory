@@ -1,0 +1,18 @@
+{
+
+    "Buildings":
+	[
+		[["Creeps", 2],[1, -1, 1, 1]],
+		[["Orcs", 30],[3, -1, -1, -1]],
+		[["Zombies", 45],[1, 1, 1, -1]],
+		[["Killer Bots", 75],[1, 2, -2, 1]]
+	],
+	"Titles":
+	[
+		["Prince of Arabia", 50],
+		["World of mycraft", 40],
+		["Street of Fight", 30],
+		["Borderworld", 20]
+	]
+
+}

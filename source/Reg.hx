@@ -50,4 +50,10 @@ class Reg
 	
 	public static var hud:HUD;
 	
+	
+	
+	public static var config:Dynamic;
+	public static var bldData:Array<Dynamic> = [];
+	public static var titData:Array<Dynamic> = [];
+	
 }
