@@ -16,9 +16,10 @@ import flixel.util.FlxTimer;
  */
 class Link extends FlxSpriteGroup
 {
-	public var nodes:Array<FlxPoint>;
+	public var nodes:Array<FlxPoint> = [];
+	var prevNodes:Array<FlxPoint>;
 	public var title:Title;
-	var line:FlxSprite;
+	var dotCont:FlxSpriteGroup = new FlxSpriteGroup();
 	var bld:Building;
 
 	public function new(title:Title, bld:Building) 
@@ -29,29 +30,8 @@ class Link extends FlxSpriteGroup
 		this.title = title;
 		
 		new FlxTimer(1, everySecond, 0);
-		
+		add(dotCont);
 		setNodes();
-		
-		//line = new FlxSprite();
-		//line.makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
-		
-		for (i in 0...nodes.length - 1) {
-			var dot:FlxSprite = new FlxSprite(nodes[i].x - Reg.brickSize / 2, nodes[i].y - Reg.brickSize / 2);
-			dot.loadGraphic(AssetPaths.dot__png);
-			add(dot);
-			//trace(dot);
-			
-			//FlxSpriteUtil.drawLine(line, nodes[i].x, nodes[i].y, nodes[i + 1].x, nodes[i + 1].y, { thickness: 1, color: FlxColor.GRAY } );
-			//var ln:FlxShapeLine = new FlxShapeLine(0, 0, nodes[i], nodes[i + 1], { thickness: 1, color: FlxColor.GRAY } );
-		}
-		
-		//add(line);
-		
-		//MouseEventManager.add(this, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
-		
-		//var test:FlxSprite = new FlxSprite();
-		//test.makeGraphic(50, 50);
-		
 	}
 	
 	function everySecond(Timer:FlxTimer):Void
@@ -59,10 +39,22 @@ class Link extends FlxSpriteGroup
 		setNodes();
 	}
 	
-	function setNodes() 
+	function setNodes():Void 
 	{
+		prevNodes = nodes;
 		var tt:FlxSprite = title.getSprite();
-		nodes = Reg.map.findPath (FlxPoint.get(bld.x +bld.icon.width / 2, bld.y + bld.icon.height + Reg.brickSize/2), FlxPoint.get(tt.x - 2, tt.y + tt.height / 2), false);
+		nodes = Reg.map.findPath (FlxPoint.get(bld.x +bld.icon.width / 2, bld.y + bld.icon.height + Reg.brickSize / 2), FlxPoint.get(tt.x - 2, tt.y + tt.height / 2), false);
+		
+		if (Std.string(prevNodes) != Std.string(nodes) && !bld.isStoping) {
+			dotCont.clear();
+			if (nodes != null) {
+				for (i in 0...nodes.length - 1) {
+					var dot:FlxSprite = new FlxSprite(nodes[i].x - Reg.brickSize / 2, nodes[i].y - Reg.brickSize / 2);
+					dot.loadGraphic(AssetPaths.dot__png);
+					dotCont.add(dot);
+				}
+			}
+		}
 	}
 	
 	function onMouseUp(sprite:FlxSprite) {

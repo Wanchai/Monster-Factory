@@ -39,6 +39,7 @@ class Reg
 	public static var saves:Array<FlxSave> = [];
 	
 	public static var titles:Array<Title> = [];
+	public static var buildings:Array<Dynamic> = [];
 	
 	public static var tileWidth:Int = 8;
 	public static var tileHeight:Int = 8;
@@ -46,7 +47,7 @@ class Reg
 	
 	public static var map:FlxTilemap;
 	
-	public static var cash:Int;
+	public static var cash:Int = 0;
 	
 	public static var hud:HUD;
 	

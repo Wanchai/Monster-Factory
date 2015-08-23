@@ -38,14 +38,15 @@ class Title extends FlxSpriteGroup
 		Reg.titles.push(this);
     }
 	
-	public function addLife(i:Int) {
+	public function addLife(i:Int) 
+	{
 		var str:String = (i > 0) ? "+" + i : "" + i;
-		var txt:FlxText = new FlxText(0, 0, 20, str);
+		var txt:FlxText = new FlxText(0, -5, 50, str);
 		add(txt);
 		
 		FlxTween.tween(txt, { alpha: 0, y: icon.y-20 }, 1 );
 		
-		icon.health += i;
+		if(icon.health < data[1]) icon.health += i;
 		//trace(i);
 	}
 		
@@ -87,13 +88,11 @@ class Title extends FlxSpriteGroup
 		}
 	}
 	
-	public function setData(id:Int) {
-
+	public function setData(id:Int) 
+	{
 		ID = id;
 		data = Reg.titData[ID];
-		
 		icon.health = Std.parseFloat(data[1]);
-		
 		setName(data[0]);
 	}
 
@@ -117,6 +116,8 @@ class Title extends FlxSpriteGroup
 	
 	override public function destroy():Void
 	{
+		Reg.titles.remove(this);
+
 		super.destroy();
 	}
 	

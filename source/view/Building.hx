@@ -1,6 +1,7 @@
 package view;
 
 import flixel.effects.FlxFlicker;
+import flixel.effects.FlxSpriteFilter;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
@@ -12,6 +13,7 @@ import flixel.util.FlxPath;
 import flixel.util.FlxPoint;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
+import openfl.filters.DropShadowFilter;
 
 /**
  * ...
@@ -21,6 +23,7 @@ class Building extends FlxSpriteGroup
 {
 	public var icon:FlxSprite = new FlxSprite();
 	public var data:Array<Dynamic>;
+	public var isStoping:Bool = false;
 	
 	var mouseStart:FlxPoint = new FlxPoint();
 	var name:FlxText;
@@ -30,7 +33,6 @@ class Building extends FlxSpriteGroup
 	var isBuilding:Bool;
 	var monsterCount:Int = 0;
 	var timer:FlxTimer;
-	var isStoping:Bool = false;
 	
 	public var lines:Array<Link> = new Array();
 
@@ -41,25 +43,26 @@ class Building extends FlxSpriteGroup
 		
 		timer = new FlxTimer(1, everySecond, 0);
 		
-		icon.makeGraphic(10 * Reg.brickSize, 6 * Reg.brickSize, FlxColor.AZURE);
+		//icon.makeGraphic(10 * Reg.brickSize, 6 * Reg.brickSize, FlxColor.AZURE);
 		
 		name = new FlxText(0, 0, icon.width);
 		name.setFormat(12, FlxColor.BLACK, "center");
 		//name.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.RED, 1);
 		
-		add(icon);
-		add(name);
+		//add(name);
 		
 		if (!isBuilding) 
 		{
-			updateMap();
 			setData(0);
+			
 			init();
+			updateMap();
 		}
     }
 	
 	function init() 
 	{
+		Reg.buildings.push(this);
 		canvas.makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
 		canvas.setPosition( -this.x, -this.y);
 		add(canvas);
@@ -70,6 +73,14 @@ class Building extends FlxSpriteGroup
 	public function setData(id:Int) {
 		ID = id;
 		data = Reg.bldData[ID];
+		
+		icon.loadGraphic("assets/images/"+data[0][3]);
+		add(icon);
+		
+		var filter4:DropShadowFilter = new DropShadowFilter(4, 135, 0, .5, 10, 10, 1, 1);
+		
+		var foo:FlxSpriteFilter = new FlxSpriteFilter(icon,5,5);
+		foo.addFilter(filter4);
 		
 		setName(data[0][0]);
 	}
@@ -112,7 +123,6 @@ class Building extends FlxSpriteGroup
 				if (updateMap()) {
 					isBuilding = false;
 					this.setPosition(Std.int(this.x / Reg.brickSize) * Reg.brickSize, Std.int(this.y / Reg.brickSize) * Reg.brickSize);
-					//trace("X: " + (Std.int(this.x / Reg.brickSize) * Reg.brickSize) + " Y: " + (Std.int(this.y / Reg.brickSize) * Reg.brickSize));
 					init();
 				}
 			}
@@ -181,11 +191,9 @@ class Building extends FlxSpriteGroup
 			}
 		}
 		if (monsterCount >= Reg.bldData[ID][0][2]) {
-			//FlxFlicker.flicker(this, 4, 0.04, true, true, removeMe);
-			//FlxFlicker.flicker(this, 3);
-			new FlxTimer(4, removeMe);
-			isStoping = true;
 			timer.cancel();
+			isStoping = true;
+			new FlxTimer(4, removeMe);
 		}
 	}
 	
@@ -196,6 +204,7 @@ class Building extends FlxSpriteGroup
 	
 	function removeMe2(flk:FlxFlicker):Void 
 	{
+		Reg.buildings.remove(this);
 		destroy();
 	}
 	

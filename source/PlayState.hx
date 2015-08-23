@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
+import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import flixel.ui.FlxButton;
 import flixel.util.FlxPath;
@@ -32,35 +33,34 @@ class PlayState extends FlxState
 	{
 		super.create();
 		
-		new FlxTimer(1, everySecond, 0);
+		titTimer = new FlxTimer(15, addTitle, 0);
 		
-		titTimer = new FlxTimer(10, addTitle, 0);
+		var bk:FlxSprite = new FlxSprite(0, 0, AssetPaths.bk__png);
+		add(bk);
+		//add(FlxGridOverlay.create(Reg.brickSize, Reg.brickSize, -1, -1, false, true, 0x11ffffff, 0x22ffffff));
 		
-		add(FlxGridOverlay.create(Reg.brickSize, Reg.brickSize, -1, -1, false, true, 0x11ffffff, 0x22ffffff));
-		
+		Reg.cash = 0;
 		Reg.map = new FlxTilemap();
-		//Reg.map = tileMap;
 		Reg.map.loadMap(FlxStringUtil.imageToCSV("assets/images/100.png", false, 1), "assets/images/black_tile.png");
 		add(Reg.map);
 		
-		
-		btnCont = new FlxSpriteGroup(10, 200);
+		var txt:FlxText = new FlxText(20, 160, 120, "Build", 14);
+		add(txt);
+		btnCont = new FlxSpriteGroup(20, 200);
 		add(btnCont);
 		
-		var bld:Building = new Building(50 * Reg.brickSize, 32 * Reg.brickSize);
-		bld.setName("Creeps");
+		var bld:Building = new Building(45 * Reg.brickSize, 31 * Reg.brickSize);
 		add(bld);
 		
 		var title2:Title = new Title(80 * Reg.brickSize, 6 * Reg.brickSize);
 		title2.setData(0);
 		add(title2);
 		
-		// LEFT
-		//var addCreeps = new FlxButton2(10, 200, "Creeps 15$", addCreepsCallback);
-		//add(addCreeps);
-		// ---
 		Reg.hud = new HUD();
 		add(Reg.hud);
+		
+		new FlxTimer(1, everySecond, 0);
+
 	}
 	
 	function addTitle(Timer:FlxTimer):Void
@@ -80,15 +80,23 @@ class PlayState extends FlxState
 			if (bldg[0][1] <= Reg.cash) {
 				var bldBtn = new FlxButton(0, 30 * i, bldg[0][0] + " " + bldg[0][1] + "$");
 				bldBtn.ID = i;
-				bldBtn.onDown.callback = bldBtnCallback.bind(i);
+				bldBtn.onUp.callback = bldBtnCallback.bind(i);
 				btnCont.add(bldBtn);
 			}
 			i++;
 		}
+		if (Reg.titles.length == 0 || (Reg.buildings.length == 0 && Reg.cash < Reg.bldData[0][0][1]) || Reg.cash < -5) {
+			gameOver();
+		}
+	}
+	
+	function gameOver() 
+	{
+		FlxG.switchState(new GameOver());
 	}
 	private function bldBtnCallback(val:Int):Void
 	{
-		var bld:Building = new Building(FlxG.mouse.x, FlxG.mouse.y, true);
+		var bld:Building = new Building(FlxG.mouse.x - 40, FlxG.mouse.y - 20, true);
 		bld.setData(val);
 		add(bld);
 		Reg.cash -= Std.int(bld.data[0][1]);
@@ -97,6 +105,7 @@ class PlayState extends FlxState
 	override public function destroy():Void
 	{
 		super.destroy();
+		titTimer.cancel();
 	}
 
 	override public function update():Void

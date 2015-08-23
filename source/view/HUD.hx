@@ -25,8 +25,8 @@ class HUD extends FlxSpriteGroup
 		
 		FlxSpriteUtil.screenCenter(cash, true, false);
 		
-		var resetBtn:FlxButton = new FlxButton(1, 1, "reset", resetMe);
-		add(resetBtn);
+		//var resetBtn:FlxButton = new FlxButton(1, 1, "reset", resetMe);
+		//add(resetBtn);
 	}
 	
 	function resetMe() 
