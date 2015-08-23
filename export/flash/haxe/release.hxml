@@ -11,8 +11,10 @@
 -D native-trace
 -D openfl-next
 -D tools=2.6.0
+-D FLX_NO_DEBUG
 -D flash-use-stage
 -D no-compilation
+-D NAPE_RELEASE_BUILD
 -D openfl-flash
 -D FLX_RENDER_BLIT
 -D fdb

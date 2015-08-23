@@ -22,6 +22,7 @@ class MenuState extends FlxState
 		var bk:FlxSprite = new FlxSprite(0, 0, AssetPaths.bk_menu__png);
 		add(bk);
 		
+		FlxG.sound.playMusic(AssetPaths.ThoMa_LD33__mp3, 0.7);
 	}
 
 	/**
@@ -39,5 +40,9 @@ class MenuState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+		if (FlxG.mouse.justReleased) {
+			FlxG.switchState(new PlayState());
+		}
+		
 	}
 }

@@ -98,8 +98,8 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/music/music-goes-here.txt");
-		types.push (lime.Assets.AssetType.TEXT);
+		urls.push ("assets/music/ThoMa-LD33.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
 		
 		
 		urls.push ("assets/sounds/sounds-go-here.txt");
@@ -182,7 +182,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "502",
+			build: "519",
 			company: "Thomas MALICET",
 			file: "LD33",
 			fps: 60,

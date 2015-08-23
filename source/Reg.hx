@@ -1,5 +1,6 @@
 package;
 
+import flixel.system.FlxSound;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxSave;
 import view.HUD;
@@ -51,7 +52,7 @@ class Reg
 	
 	public static var hud:HUD;
 	
-	
+	public static var music:FlxSound;
 	
 	public static var config:Dynamic;
 	public static var bldData:Array<Dynamic> = [];
