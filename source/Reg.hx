@@ -2,6 +2,7 @@ package;
 
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxSave;
+import view.HUD;
 import view.Title;
 
 /**
@@ -44,5 +45,9 @@ class Reg
 	public static var brickSize:Int = 8;
 	
 	public static var map:FlxTilemap;
+	
+	public static var cash:Int;
+	
+	public static var hud:HUD;
 	
 }

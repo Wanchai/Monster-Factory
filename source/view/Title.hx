@@ -23,13 +23,12 @@ class Title extends FlxSpriteGroup
 		
 		icon.makeGraphic(5 * Reg.brickSize, 3 * Reg.brickSize, FlxColor.WHITE);
 		
-		name = new FlxText(6 * Reg.brickSize, 0, 100);
-		name.text = "World of Mycraft";
+		name = new FlxText(icon.width + 10, 0, 100);
 		name.setFormat(12, FlxColor.WHITE, "left");
 		//name.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.RED, 1);
 		
 		add(icon);
-		//add(name);
+		add(name);
 		
 		Reg.titles.push(this);
 		
@@ -54,5 +53,9 @@ class Title extends FlxSpriteGroup
 	public function getSprite():FlxSprite 
 	{
 		return icon;
+	}
+	public function setName(str:String):Void 
+	{
+		name.text = str;
 	}
 }

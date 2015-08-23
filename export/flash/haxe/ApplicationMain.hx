@@ -130,7 +130,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "233",
+			build: "315",
 			company: "Thomas MALICET",
 			file: "LD33",
 			fps: 60,

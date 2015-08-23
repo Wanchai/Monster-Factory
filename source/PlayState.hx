@@ -18,6 +18,7 @@ import openfl.display.CapsStyle;
 import openfl.display.Graphics;
 import openfl.display.JointStyle;
 import view.Building;
+import view.HUD;
 import view.Monster;
 import view.Title;
 
@@ -37,32 +38,40 @@ class PlayState extends FlxState
 		
 		add(FlxGridOverlay.create(Reg.brickSize, Reg.brickSize, -1, -1, false, true, 0x11ffffff, 0x22ffffff));
 		
-		var tileMap:FlxTilemap = new FlxTilemap();
-		Reg.map = tileMap;
-		tileMap.loadMap(FlxStringUtil.imageToCSV("assets/images/100.png", false, 1), "assets/images/black_tile.png");
-		add(tileMap);
+		Reg.map = new FlxTilemap();
+		//Reg.map = tileMap;
+		Reg.map.loadMap(FlxStringUtil.imageToCSV("assets/images/100.png", false, 1), "assets/images/black_tile.png");
+		add(Reg.map);
+		
+		Reg.hud = new HUD();
+		add(Reg.hud);
 		
 		// For TEst
 
 		
 		var bld:Building = new Building(50 * Reg.brickSize, 32 * Reg.brickSize);
+		bld.setName("Creeps");
 		add(bld);
 		
-		var bld2:Building = new Building(65 * Reg.brickSize, 23 * Reg.brickSize);
-		add(bld2);
+		//var bld2:Building = new Building(65 * Reg.brickSize, 13 * Reg.brickSize);
+		//add(bld2);
 		
-		var title:Title = new Title(80 * Reg.brickSize, 15 * Reg.brickSize);
-		add(title);
+		//var title:Title = new Title(80 * Reg.brickSize, 15 * Reg.brickSize);
+		//add(title);
 		
 		var title2:Title = new Title(80 * Reg.brickSize, 30 * Reg.brickSize);
+		title2.setName("Prince of Arabia");
 		add(title2);
 		
+		// LEFT
+		var addBldg = new FlxButton(10, 200, "Creeps", addBldgCallback);
+		add(addBldg);
 		// ---
 	}
-	
-	override public function draw():Void
+	private function addBldgCallback():Void
 	{
-		super.draw();
+		var bld2:Building = new Building(FlxG.mouse.x, FlxG.mouse.y, true);
+		add(bld2);
 	}
 	
 	override public function destroy():Void
