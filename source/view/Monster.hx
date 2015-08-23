@@ -13,7 +13,7 @@ import flixel.util.FlxPath;
 class Monster extends FlxSprite
 {
 	public var path:FlxPath;
-	public var points:Int = 1;
+	public var points:Int = 0;
 	
 	public function new(X:Float=0, Y:Float=0) 
 	{
@@ -31,6 +31,8 @@ class Monster extends FlxSprite
 				var tt:FlxSprite = tit.getSprite();
 				if (FlxG.overlap(this, tt)) {
 					Reg.cash += points;
+					
+					tit.addLife(points);
 					
 					destroy();
 				}

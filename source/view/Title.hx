@@ -3,6 +3,7 @@ package view;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
@@ -14,12 +15,14 @@ class Title extends FlxSpriteGroup
 {
 	var name:FlxText;
 	var icon:FlxSprite = new FlxSprite();
+	var data:Array<Dynamic>;
+	var timer:FlxTimer;
 
     public function new(X:Float=0, Y:Float=0)
     {
         super(X, Y);
 		
-		new FlxTimer(1, everySecond, 0);
+		timer = new FlxTimer(1, everySecond, 0);
 		
 		icon.makeGraphic(5 * Reg.brickSize, 3 * Reg.brickSize, FlxColor.WHITE);
 		
@@ -34,6 +37,17 @@ class Title extends FlxSpriteGroup
 		
 		Reg.titles.push(this);
     }
+	
+	public function addLife(i:Int) {
+		var str:String = (i > 0) ? "+" + i : "" + i;
+		var txt:FlxText = new FlxText(0, 0, 20, str);
+		add(txt);
+		
+		FlxTween.tween(txt, { alpha: 0, y: icon.y-20 }, 1 );
+		
+		icon.health += i;
+		//trace(i);
+	}
 		
 	function updateMap(make:Bool = false): Bool
 	{
@@ -60,9 +74,27 @@ class Title extends FlxSpriteGroup
 		return chk;
 	}
 	
+	function removeMap(): Void
+	{
+		var icW:Int = Std.int(icon.width / Reg.brickSize);
+		var icH:Int = Std.int(icon.height / Reg.brickSize);
+		
+		for (i in 0...icW) {
+			for (j in 0...icH) {
+				var ind:Int = Std.int(this.y / Reg.brickSize + j) * 100  + Std.int(this.x / Reg.brickSize) + i;
+				Reg.map.setTileByIndex(ind, 0);
+			}
+		}
+	}
+	
 	public function setData(id:Int) {
+
 		ID = id;
-		setName(Reg.titData[ID][0]);
+		data = Reg.titData[ID];
+		
+		icon.health = Std.parseFloat(data[1]);
+		
+		setName(data[0]);
 	}
 
     override public function update():Void
@@ -70,14 +102,22 @@ class Title extends FlxSpriteGroup
         super.update();
     }
 
-    override public function destroy():Void
-    {
-        super.destroy();
-    }
 		
 	function everySecond(Timer:FlxTimer):Void 	
 	{
+		icon.health -= 1;
+		
+		if (icon.health < 1) {
+			timer.cancel();
+			removeMap();
+			destroy();
+		}
 		//trace("hop");
+	}
+	
+	override public function destroy():Void
+	{
+		super.destroy();
 	}
 	
 	public function getSprite():FlxSprite 

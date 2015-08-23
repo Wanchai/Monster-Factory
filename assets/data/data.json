@@ -2,17 +2,19 @@
 
     "Buildings":
 	[
-		[["Creeps", 2],[1, -1, 1, 1]],
-		[["Orcs", 30],[3, -1, -1, -1]],
-		[["Zombies", 45],[1, 1, 1, -1]],
-		[["Killer Bots", 75],[1, 2, -2, 1]]
+		[["Creeps", 2, 5],[1, 0, -1, 1, 3]],
+		[["Orcs", 20, 15],[1, 3, -1, -2, 0]],
+		[["Zombies", 40, 20],[1, 1, 1, -2, 2]],
+		[["Killer Bots", 70, 30],[-1, 3, 4, 2, -2]],
+		[["Boss", 120, 5],[35, 45, 30, 30, 5]]
 	],
 	"Titles":
 	[
 		["Prince of Arabia", 50],
 		["World of mycraft", 40],
-		["Street of Fight", 30],
-		["Borderworld", 20]
+		["Street of Fight", 35],
+		["Borderworld", 30],
+		["MeCraft", 25]
 	]
 
 }

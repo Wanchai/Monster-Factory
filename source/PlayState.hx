@@ -1,6 +1,7 @@
 package;
 
 import flixel.addons.display.FlxGridOverlay;
+import flixel.effects.FlxFlicker;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -51,7 +52,7 @@ class PlayState extends FlxState
 		add(bld);
 		
 		var title2:Title = new Title(80 * Reg.brickSize, 6 * Reg.brickSize);
-		title2.setName("Prince of Arabia");
+		title2.setData(0);
 		add(title2);
 		
 		// LEFT
@@ -71,12 +72,12 @@ class PlayState extends FlxState
 		if (titleCount == Reg.titData.length-1) titTimer.cancel();
 	}
 	
-	function everySecond(Timer:FlxTimer) :Void
+	function everySecond(Timer:FlxTimer):Void
 	{
 		var i:Int = 0;
 		btnCont.clear();
 		for (bldg in Reg.bldData) {
-			if (bldg[0][1] < Reg.cash) {
+			if (bldg[0][1] <= Reg.cash) {
 				var bldBtn = new FlxButton(0, 30 * i, bldg[0][0] + " " + bldg[0][1] + "$");
 				bldBtn.ID = i;
 				bldBtn.onDown.callback = bldBtnCallback.bind(i);
@@ -90,6 +91,7 @@ class PlayState extends FlxState
 		var bld:Building = new Building(FlxG.mouse.x, FlxG.mouse.y, true);
 		bld.setData(val);
 		add(bld);
+		Reg.cash -= Std.int(bld.data[0][1]);
 	}
 	
 	override public function destroy():Void

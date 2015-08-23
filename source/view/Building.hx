@@ -1,5 +1,6 @@
 package view;
 
+import flixel.effects.FlxFlicker;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
@@ -19,12 +20,17 @@ import flixel.util.FlxTimer;
 class Building extends FlxSpriteGroup
 {
 	public var icon:FlxSprite = new FlxSprite();
+	public var data:Array<Dynamic>;
+	
 	var mouseStart:FlxPoint = new FlxPoint();
 	var name:FlxText;
 	var linking:Bool;
 	var canvas:FlxSprite = new FlxSprite();
 	var lnCount:Int = 0;
 	var isBuilding:Bool;
+	var monsterCount:Int = 0;
+	var timer:FlxTimer;
+	var isStoping:Bool = false;
 	
 	public var lines:Array<Link> = new Array();
 
@@ -32,7 +38,8 @@ class Building extends FlxSpriteGroup
     {
         super(X, Y);
 		isBuilding = BUILD;
-		new FlxTimer(1, everySecond, 0);
+		
+		timer = new FlxTimer(1, everySecond, 0);
 		
 		icon.makeGraphic(10 * Reg.brickSize, 6 * Reg.brickSize, FlxColor.AZURE);
 		
@@ -62,7 +69,9 @@ class Building extends FlxSpriteGroup
 	
 	public function setData(id:Int) {
 		ID = id;
-		setName(Reg.bldData[ID][0][0]);
+		data = Reg.bldData[ID];
+		
+		setName(data[0][0]);
 	}
 	
 	function updateMap(make:Bool = false): Bool
@@ -147,7 +156,7 @@ class Building extends FlxSpriteGroup
 				//FlxSpriteUtil.fill(canvas, 0x11c3c3c3);
 				FlxSpriteUtil.fill(canvas, FlxColor.TRANSPARENT);
 			}
-			FlxSpriteUtil.drawLine(canvas, mouseStart.x, mouseStart.y, FlxG.mouse.x, FlxG.mouse.y, { thickness: 1, color: FlxColor.RED } );
+			FlxSpriteUtil.drawLine(canvas, mouseStart.x, mouseStart.y, FlxG.mouse.x, FlxG.mouse.y, { thickness: 1, color: FlxColor.GRAY } );
 		}		
 	}
 		
@@ -156,9 +165,11 @@ class Building extends FlxSpriteGroup
 		if (lines.length > 0) {
 			var monster:Monster = new Monster(0 + icon.width / 2, 0 + icon.height + Reg.brickSize/2);
 			add(monster);
+			monsterCount++;
 			
 			var path:FlxPath = new FlxPath();
 			if (lines[lnCount].nodes != null) {
+				monster.points = data[1][lines[lnCount].title.ID];
 				path.start(monster, lines[lnCount].nodes, 100, FlxPath.FORWARD, true);
 			}
 			monster.path = path;
@@ -167,6 +178,36 @@ class Building extends FlxSpriteGroup
 				lnCount = 0;
 			} else {
 				lnCount++;
+			}
+		}
+		if (monsterCount >= Reg.bldData[ID][0][2]) {
+			//FlxFlicker.flicker(this, 4, 0.04, true, true, removeMe);
+			//FlxFlicker.flicker(this, 3);
+			new FlxTimer(4, removeMe);
+			isStoping = true;
+			timer.cancel();
+		}
+	}
+	
+	function removeMe(flk:FlxTimer):Void {
+		removeMap();
+		FlxFlicker.flicker(this, 2, 0.04, true, true, removeMe2);
+	}
+	
+	function removeMe2(flk:FlxFlicker):Void 
+	{
+		destroy();
+	}
+	
+	function removeMap(): Void
+	{
+		var icW:Int = Std.int(icon.width / Reg.brickSize);
+		var icH:Int = Std.int(icon.height / Reg.brickSize);
+		
+		for (i in 0...icW) {
+			for (j in 0...icH) {
+				var ind:Int = Std.int(this.y / Reg.brickSize + j) * 100  + Std.int(this.x / Reg.brickSize) + i;
+				Reg.map.setTileByIndex(ind, 0);
 			}
 		}
 	}
