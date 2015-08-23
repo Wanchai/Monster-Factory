@@ -96,10 +96,13 @@ class PlayState extends FlxState
 	}
 	private function bldBtnCallback(val:Int):Void
 	{
-		var bld:Building = new Building(FlxG.mouse.x - 40, FlxG.mouse.y - 20, true);
-		bld.setData(val);
-		add(bld);
-		Reg.cash -= Std.int(bld.data[0][1]);
+		if (Reg.cash >= Std.int(Reg.bldData[val][0][1]))
+		{
+			var bld:Building = new Building(FlxG.mouse.x - 40, FlxG.mouse.y - 20, true);
+			bld.setData(val);
+			add(bld);
+			Reg.cash -= Std.int(bld.data[0][1]);
+		}
 	}
 	
 	override public function destroy():Void

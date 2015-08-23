@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>MONSTER FACTORY - Ludum Dare #33</title>
+	<meta name="description" content="" />
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	
+	<script src="swfobject.js"></script>
+	<script>
+		var flashvars = {
+		};
+		var params = {
+			menu: "false",
+			scale: "noScale",
+			allowFullscreen: "true",
+			allowScriptAccess: "always",
+			bgcolor: "",
+			wmode: "direct" // can cause issues with FP settings & webcam
+		};
+		var attributes = {
+			id:"Game"
+		};
+		swfobject.embedSWF(
+			"Game.swf", 
+			"altContent", "800px", "600px", "11.0.0", 
+			"expressInstall.swf", 
+			flashvars, params, attributes);
+	</script>
+</head>
+<body>
+	<div id="game">
+		<center>
+		<div id="altContent">
+			<h1>MONSTER FACTORY - Ludum Dare #33</h1>
+			<p><a href="http://www.adobe.com/go/getflashplayer">You need Adobe Flash player</a></p>
+		</div>
+		</center>
+	</div>
+
+	<div id="clear"></div>
+
+	<div id="bottom">
+
+		<div id="controls">
+						
+		</div>
+
+		<div id="contact">
+			-- Infos -- <br/>
+			<a href="https://twitter.com/tmalicet">@tmalicet</a><br/>
+			<a href="http://www.thomasmalicet.com">Website</a><br/>
+			Made with <a href="http://haxeflixel.com/">HaxeFlixel</a><br/>
+			<a href="https://github.com/Wanchai/Guns-Bricks">Source</a><br/>
+		</div>
+
+	</div>
+
+</body>
+</html>

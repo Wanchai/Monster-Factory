@@ -24,7 +24,8 @@ class Title extends FlxSpriteGroup
 		
 		timer = new FlxTimer(1, everySecond, 0);
 		
-		icon.makeGraphic(5 * Reg.brickSize, 3 * Reg.brickSize, FlxColor.WHITE);
+		//icon.makeGraphic(5 * Reg.brickSize, 3 * Reg.brickSize, FlxColor.WHITE);
+		icon.loadGraphic(AssetPaths.img2_14__png);
 		
 		name = new FlxText(icon.width + 10, 0, 100);
 		name.setFormat(12, FlxColor.WHITE, "left");

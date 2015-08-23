@@ -19,6 +19,9 @@ class MenuState extends FlxState
 	{
 		super.create();
 		
+		var bk:FlxSprite = new FlxSprite(0, 0, AssetPaths.bk_menu__png);
+		add(bk);
+		
 	}
 
 	/**

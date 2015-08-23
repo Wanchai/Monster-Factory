@@ -173,14 +173,14 @@ class Building extends FlxSpriteGroup
 	function everySecond(Timer:FlxTimer):Void
 	{
 		if (lines.length > 0) {
-			var monster:Monster = new Monster(0 + icon.width / 2, 0 + icon.height + Reg.brickSize/2);
+			var monster:Monster = new Monster(0 + icon.width / 2, 0 + icon.height + Reg.brickSize/2, data[0][4]);
 			add(monster);
 			monsterCount++;
 			
 			var path:FlxPath = new FlxPath();
 			if (lines[lnCount].nodes != null) {
 				monster.points = data[1][lines[lnCount].title.ID];
-				path.start(monster, lines[lnCount].nodes, 100, FlxPath.FORWARD, true);
+				path.start(monster, lines[lnCount].nodes, 100, FlxPath.FORWARD, false);
 			}
 			monster.path = path;
 

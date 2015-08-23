@@ -38,6 +38,10 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("assets/images/bk-menu.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/images/bk.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
@@ -47,6 +51,30 @@ class ApplicationMain {
 		
 		
 		urls.push ("assets/images/dot.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/img2_03.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/img2_05.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/img2_07.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/img2_09.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/img2_11.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/img2_14.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -154,7 +182,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "494",
+			build: "502",
 			company: "Thomas MALICET",
 			file: "LD33",
 			fps: 60,

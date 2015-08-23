@@ -14,12 +14,14 @@ class Monster extends FlxSprite
 {
 	public var path:FlxPath;
 	public var points:Int = 0;
+	var icon:FlxSprite;
 	
-	public function new(X:Float=0, Y:Float=0) 
+	public function new(X:Float=0, Y:Float=0, str:String) 
 	{
 		super(X, Y);
 		
-		makeGraphic(1 * Reg.brickSize, 1 * Reg.brickSize, FlxColor.SILVER);
+		//makeGraphic(1 * Reg.brickSize, 1 * Reg.brickSize, FlxColor.SILVER);
+		loadGraphic("assets/images/" + str);
 	}
 	
 	override public function update():Void
